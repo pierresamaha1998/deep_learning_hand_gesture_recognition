@@ -26,9 +26,6 @@ The notebook below, provided by google collab, includes gesture data loading, mo
 
 ---
 
----
-
-
 
 #### Citation
 
