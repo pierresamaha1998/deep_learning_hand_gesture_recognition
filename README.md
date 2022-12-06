@@ -6,7 +6,7 @@ This repository is a demo tensorflow implementation of the deep learning model f
 
 A deep learning models are used to classify hand gesture. I am going to implement RNN with LSTM layers for this problem in addition to the work that have been done in the paper. This will be my first experience with RNN and temporal convolution 1D.
 
-In the previous work, the neural network extracts motion features, using a dedicated temporal feature extractor made of temporal convolutions (1D convolution over time) for each individual 1D channel (e.g. let’s say the channel representing the y position of the wrist). These temporal features are finally used to determine the nature of the gesture performed.
+In the previous work, the neural network extracts motion features, using a dedicated temporal feature extractor made of temporal convolutions (1D convolution over time) for each individual 1D channel (e.g. let’s say the channel representing the y position of the wrist). These temporal features are finally used to determine the nature of the gesture performed. Once features have been extracted for each channel, they need to be “merged”. To that extent, they are all fed into a dense neural network (one hidden layer) which performs the final classification. The full model (by-channel temporal feature extraction + final MLP) is differentiable and can be trained end-to-end.
 
 I am going to perform a LSTM model to solve the problem. The goal of RNN models is to extract the temporal correlation between the n-joints by keeping a memory of past position of the joints. The RNN layer is connected to a fully connected layer to get the classification output.
 
@@ -29,20 +29,6 @@ The model use such sequences as input.
 Data format: 
 
 The model expects gestures to be tensors of the following shape: ```(batch_size, duration, n_channels)```.
-
-##### Finding temporal features
-
-The key idea of the model is to extract relevant features to classify the gesture, based on the temporal evolution of each channel/signal. (The extracted features will later be used to perform the classification.)
-
-Each channel is processed separately.
-
-##### Gesture classification
-
-Once features have been extracted for each channel, they need to be “merged”.
-
-To that extent, they are all fed into a dense neural network (one hidden layer) which performs the final classification.
-
-The full model (by-channel temporal feature extraction + final MLP) is differentiable and can be trained end-to-end.
 
 ---
 
