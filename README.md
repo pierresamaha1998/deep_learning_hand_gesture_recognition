@@ -26,7 +26,7 @@ Each hand joint typically has 2 or 3 dimensions, to represent its (x,y) or (x,y,
 
 The model use such sequences as input.
 
-#########Data format
+Data format: 
 
 The model expects gestures to be tensors of the following shape: ```(batch_size, duration, n_channels)```.
 
@@ -50,56 +50,6 @@ The full model (by-channel temporal feature extraction + final MLP) is different
 
 Recognizing hand gestures can be useful in many daily real-life situations: writing, drawing, typing, communicating with sign language, cooking, gardening, driving, playing music, playing sport, painting, acting, doing precise surgery, pointing, interacting with one’s environment in augmented reality or virtual reality, for drone control, lights control, sound control, home automation, medicine, nonverbal communication, … the list is almost limitless!
 
-##### A. Get hand pose sequences
-
-If you only have videos of the gestures, first use a vision-based approach to generate hand pose/skeletal representation of your sequences.
-
-For instance, you can use the CMU's OpenPose demo:  https://github.com/CMU-Perceptual-Computing-Lab/openpose or Google's MediaPipe https://github.com/google/mediapipe/blob/master/mediapipe/docs/hand_tracking_mobile_gpu.md
-
-You can also use motion capture gloves, or dedicated sensors (Leap Motion, RealSense camera, ...) that directly provide such sequences.
-
-If you don't have any hand gesture available or if you want to reproduce the results of the research article, you can also download the [DHG-14/28 Dataset](http://www-rech.telecom-lille.fr/DHGdataset/) or the [SHREC’17 Track Dataset](http://www-rech.telecom-lille.fr/shrec2017-hand/). To preprocess the two datasets, and load them with a single line of code, [please follow the instructions provided here](https://github.com/guillaumephd/deep_learning_hand_gesture_recognition/issues/1).
-
-##### B. Data format
-
-The model expects gestures to be tensors of the following shape: ```(batch_size, duration, n_channels)```.
-
-For instance, if you want to recognize a batch of 32 gestures of length 100 on a hand skeletal constituted of 22 joints in 3D (x,y,z), i.e. 22x3=66 channels, the shape of the tensor should be : ```(32, 100, 66)```.
-
-##### C. Load the gesture sequences data
-
-First change the ```load_data()``` and the functions just below it to load your own data (section 2 of the notebook).
-
-Then load it (section 4 of the notebook).
-
-##### D. Train the model
-
-Specify how many gesture classes you have and how many hand channels (not joints) you have (section 4 of the notebook).
-
-You can now train the model on your own model.
-
-##### E. Training tips
-
-1. You should always visualize the metrics (loss, accuracy, ...; both for train/test/validation) of the model during the training. You can use ```tensorboard``` for that (see notebook for more details).
-
-1. If the validation error starts increasing you've likely already been overfitting for a few epochs
-2. If you encounter some ```pytorch``` error, ensure that your labels are in the correct range of values, and that the gesture tensor shape is correct
-3. If the accuracy curves are too noisy or not smooth enough, consider decreasing the optimizer's learning rate
-4. You can use data augmentation to improve the model performance
-
----
-
-### Requirements
-
-The notebook will run fine with:
-
-- `python 3`
-
-- `pytorch 1.0` and above
-
-- Usual pip modules: `numpy` `sklearn` `scipy`
-
-Optional: if you want to monitor the neural network’s metrics during training, you’ll also need ```tensorboardX``` and ```tensorboard``` (the latter is provided by ```tensorflow```)
 
 ### Citation
 
