@@ -8,11 +8,7 @@ A deep learning models are used to classify hand gesture. I am going to implemen
 
 Each hand joint typically has 2 or 3 dimensions, to represent its (x,y) or (x,y,z) position in space at a given timestep. A gesture is thus represented by a sequence over time of n_joints (e.g. 22 joints in the image above) joints, or, equivalently by a sequence over time of n_channels (e.g. 66 channels = 22 joints x 3 channels: for x, y and z position of the joint).
 
-The model use such sequences as input.
-
-Data format: 
-
-The model expects gestures to be tensors of the following shape: ```(batch_size, duration, n_channels)```.
+The model use such sequences as input. Data format: The model expects gestures to be tensors of the following shape: ```(batch_size, duration, n_channels)```.
 
 In the previous work, the neural network extracts motion features, using a dedicated temporal feature extractor made of temporal convolutions (1D convolution over time) for each individual 1D channel (e.g. let’s say the channel representing the y position of the wrist). These temporal features are finally used to determine the nature of the gesture performed. Once features have been extracted for each channel, they need to be “merged”. To that extent, they are all fed into a dense neural network (one hidden layer) which performs the final classification. The full model (by-channel temporal feature extraction + final MLP) is differentiable and can be trained end-to-end.
 
