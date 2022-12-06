@@ -4,7 +4,7 @@ This repository is a demo tensorflow implementation of the deep learning model f
 
 #### Summary
 
-A deep learning models are used to classify hand gesture. I am going to implement RNN with LSTM layers for this problem in addition to the work that have been done in the paper. This will be my first experience with RNN and temporal convolution 1D.
+A deep learning models are used to classify hand gesture. I am going to implement RNN with ```LSTM``` layers for this problem in addition to the work that have been done in the paper. This will be my first experience with RNN and temporal convolution 1D.
 
 Each hand joint typically has 2 or 3 dimensions, to represent its (x,y) or (x,y,z) position in space at a given timestep. A gesture is thus represented by a sequence over time of n_joints (e.g. 22 joints in the image above) joints, or, equivalently by a sequence over time of n_channels (e.g. 66 channels = 22 joints x 3 channels: for x, y and z position of the joint).
 
