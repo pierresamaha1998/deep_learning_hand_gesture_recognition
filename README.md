@@ -1,17 +1,12 @@
-# Deep Learning for Hand Gesture Recognitio
+# Hand-Gesture-Recognition---Temporal Convolution 1D and LSTM
 
-This repository holds ```keras``` and ```pytorch``` implementations of the deep learning model for hand gesture recognition introduced in the article [Deep Learning for Hand Gesture Recognition on Skeletal Data](https://ieeexplore.ieee.org/document/8373818) from G. Devineau, F. Moutarde, W. Xi and J. Yang.
+This repository is a demo tensorflow implementation of the deep learning model for hand gesture recognition introduced in the article [Deep Learning for Hand Gesture Recognition on Skeletal Data](https://ieeexplore.ieee.org/document/8373818) from G. Devineau, F. Moutarde, W. Xi and J. Yang.
+
+I am going to implement RNN with LSTM layers for this problem. This will be my first experience with RNN.
 
 ## Getting started
 
-Notebooks with the model definition in either ```pytorch``` or ```keras``` are provided on Google Colab. The notebooks include gesture data loading, model creation, and model training. For offline use in jupyter, you can download the notebooks from colab.
-
-
-| Description       | Google Colab                                                              |
-|-------------------|---------------------------------------------------------------------------|
-| 1. Data Loading   | https://colab.research.google.com/drive/1ggYG1XRpJ50gVgJqT_uoI257bspNogHj |
-| 2. Model: Keras   | https://colab.research.google.com/drive/1DA3qlnT-HlN5aTvWbWT-ARDfaQIEZGfH |
-| 2. Model: PyTorch | https://colab.research.google.com/drive/1TcfF3sNBOAXkQC5XU7tHMBfm0FYIC0UR |
+The notebook below, provided by google collab, includes gesture data loading, model creation, and model training.
 
 ![Overview of the gesture recognition approach with a CNN deep leaning model](images/pipeline.png)
 
@@ -23,43 +18,23 @@ Additional details are provided below.
 
 ##### Summary
 
-A deep learning model, i.e. a neural network (middle), is used to classify hand gestures. The neural network uses a sparse representation of the hand (left). The neural network extracts motion features, using a dedicated temporal feature extractor (right) made of temporal convolutions. These temporal features are finally used to determine the nature of the gesture performed.
+The neural network extracts motion features, using a dedicated temporal feature extractor (right) made of temporal convolutions. These temporal features are finally used to determine the nature of the gesture performed.
 
 ##### Model input
 
-Studies on human visual perception of biological motion ([Johansson 1973](https://link.springer.com/article/10.3758/BF03212378)) have shown that humans can recognize human body motion actions, using the motion of the body's (skeletal) joints positions only, as you can see on [this youtube video](https://www.youtube.com/watch?v=rEVB6kW9p6k).
+Each hand joint typically has 2 or 3 dimensions, to represent its (x,y) or (x,y,z) position in space at a given timestep. A gesture is thus represented by a sequence over time of n_joints (e.g. 22 joints in the image above) joints, or, equivalently by a sequence over time of n_channels (e.g. 66 channels = 22 joints x 3 channels: for x, y and z position of the joint).
 
-Such skeletal (“pose”) representations are lightweight and very sparse compared to image and video representations.
+The model use such sequences as input.
 
-Some sensors directly provide streams of body skeletons or hand skeletons: e.g. Leap Motion, Kinect camera, RealSense camera, or motion capture suits and gloves. It is also possible to extract the pose information from videos using vision-based approaches like [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose), [AlphaPose](https://github.com/MVIG-SJTU/AlphaPose), or [Google’s](https://github.com/google/mediapipe/) [Media Pipe](https://ai.googleblog.com/2019/08/on-device-real-time-hand-tracking-with.html) at a good frame rate.
+#########Data format
 
-<p align="center">
-  <img width="460" alt="Hand Pose" src="https://github.com/guillaumephd/deep_learning_hand_gesture_recognition/raw/master/images/hand_with_fingers.png">
-</p>
-
-Each hand joint typically has 2 or 3 dimensions, to represent its (x,y) or (x,y,z) position in space at a given timestep. A gesture is thus represented by a sequence over time of `n_joints` (e.g. 22 joints in the image above) joints, or, equivalently by a sequence over time of  `n_channels` (e.g. 66 channels = 22 joints x 3 channels: for x, y and z position of the joint).
-
-The model use such sequences as input. 
+The model expects gestures to be tensors of the following shape: ```(batch_size, duration, n_channels)```.
 
 ##### Finding temporal features
 
 The key idea of the model is to extract relevant features to classify the gesture, based on the temporal evolution of each channel/signal. (The extracted features will later be used to perform the classification.)
 
 Each channel is processed separately.
-
-For performance, the temporal feature extraction processing is split into three parallel branches that are later merged.
-
-<p align="center">
-  <img width="333" alt="Temporal Feature Extractor" src="https://github.com/guillaumephd/deep_learning_hand_gesture_recognition/raw/master/images/time_ex.png">
-</p>
-
-Let’s describe the first one (left). To extract temporal features for each individual 1D channel (e.g. let’s say the channel representing the `y` position of the wrist), the neural network uses 1D convolutions over time. The network use 3 convolutional and pooling layers to get a better representation.
-
-In order to deal with different time resolutions, this processing branch is actually present twice (left and right) in the temporal feature extraction module, but with different sizes –time resolutions– for the convolution kernel.
-
-A third, pooling-only, branch (middle) is added in order to help the backpropagation during the training.
-
-Finally, for each channel, the outputs computed by the three branches are concatenated into a single output.
 
 ##### Gesture classification
 
