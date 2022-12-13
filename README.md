@@ -1,4 +1,4 @@
-# Hand-Gesture-Recognition---Temporal Convolution 1D and LSTM
+# Hand-Gesture-Recognition - Temporal Convolution 1D and LSTM
 
 This repository is a demo tensorflow implementation of the deep learning model for hand gesture recognition introduced in the article [Deep Learning for Hand Gesture Recognition on Skeletal Data](https://ieeexplore.ieee.org/document/8373818) from G. Devineau, F. Moutarde, W. Xi and J. Yang.
 
