@@ -22,5 +22,5 @@ This application is useful if you want to know what kind of gesture is happening
 The notebook below, provided by google collab, includes gesture data loading, model creation, and model training.
 
 ---
-
+https://colab.research.google.com/drive/149UZlbfS1pNyopjXOdkx6f8VAUToffRz#scrollTo=zmfpW--rVB_9
 
