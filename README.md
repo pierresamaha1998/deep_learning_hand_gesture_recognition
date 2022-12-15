@@ -23,18 +23,4 @@ The notebook below, provided by google collab, includes gesture data loading, mo
 
 ---
 
-
-#### Citation
-
-If you find this code useful in your research, please consider citing:
-
-```
-@inproceedings{devineau2018deep,
-  title={Deep learning for hand gesture recognition on skeletal data},
-  author={Devineau, Guillaume and Moutarde, Fabien and Xi, Wang and Yang, Jie},
-  booktitle={2018 13th IEEE International Conference on Automatic Face \& Gesture Recognition (FG 2018)},
-  pages={106--113},
-  year={2018},
-  organization={IEEE}
-}
 ```
